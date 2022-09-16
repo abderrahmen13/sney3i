@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "800913937475",
+    "project_id": "snay3i-d8de3",
+    "storage_bucket": "snay3i-d8de3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800913937475:android:34069251e32216875570f6",
+        "android_client_info": {
+          "package_name": "com.aliret.snay3i"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "800913937475-7s3bdspr9eq0vs2ro2g5ic9ptjv7vthj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXsUy-taF2Z0XXljDxqRXlqUHutpxFlog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800913937475-7s3bdspr9eq0vs2ro2g5ic9ptjv7vthj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
