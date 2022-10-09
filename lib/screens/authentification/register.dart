@@ -1,11 +1,12 @@
-import 'package:snay3i/models/profile.dart';
+import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/services/authentication.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
-  final Profile profile;
+  final Proffessionel profile;
   const Register({Key? key, required this.profile}) : super(key: key);
 
   @override
@@ -121,7 +122,7 @@ class _RegisterState extends State<Register> {
                                         .only_alphabetical_characters;
                                   }
                                 }
-                                widget.profile.name = value;
+                                widget.profile.firstname = value;
                                 return null;
                               },
                             ),
@@ -212,24 +213,22 @@ class _RegisterState extends State<Register> {
                         Map user = await firebaseAuths.createUserAuth(
                             widget.profile,
                             await preferences.getStringValue('language') ??
-                                'en',
+                                'fr',
                             context);
                         if (user.containsKey('uid')) {
                           widget.profile.uid = user['uid'];
-                          widget.profile.createdAt = widget.profile.updatedAt =
-                              widget.profile.dateBegin =
-                                  DateTime.now().millisecondsSinceEpoch;
-                          widget.profile.dateEnd = DateTime.now()
-                              .add(const Duration(days: 7))
-                              .millisecondsSinceEpoch;
-                          widget.profile.bmi = widget.profile.currentWeight! /
-                              ((widget.profile.height! / 100) *
-                                  (widget.profile.height! / 100));
-                          widget.profile.startingWeight =
-                              widget.profile.currentWeight;
-                          widget.profile.pay = false;
-                          // create user to database (elasticSearch)
-
+                          // create user to database (mysql)
+                          await http.post(
+                              Uri.parse(
+                                  'https://sney3i.aliretshop.com/api/register'),
+                              body: {
+                                "Role": "client",
+                                "first_name": widget.profile.firstname ?? "",
+                                "last_name": widget.profile.lastname ?? "",
+                                "email": widget.profile.email ?? "",
+                                "password": widget.profile.password ?? "",
+                                "uid": widget.profile.uid ?? ""
+                              });
                           // Redirection
                           Navigator.pushNamedAndRemoveUntil(
                               context, '/login', ModalRoute.withName('/'),

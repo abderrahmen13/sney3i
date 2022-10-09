@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:snay3i/models/profile.dart';
+import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/screens/authentification/register.dart';
 import 'package:snay3i/screens/nav/bottom_nav_screen.dart';
 import 'package:snay3i/services/authentication.dart';
@@ -195,27 +195,54 @@ class _LoginState extends State<Login> {
                                     context);
                                 if (user.containsKey('uid')) {
                                   // Local values
-                                  Profile? profile =
+                                  Proffessionel? profile =
                                       await userAuth.getCurrentUser();
-                                  if (profile != null) {
+                                  if (profile != null &&
+                                      profile.status.toString() == "verified") {
                                     preferences.setUser(profile);
+                                    preferences.setStringValue(
+                                        "userEmail", controllerEmail.text);
+                                    preferences.setStringValue(
+                                        'uid', user['uid']);
+                                    preferences.setBoolValue('keeplogin', true);
+                                    preferences.setStringValue(
+                                        'loginType', 'emailAndPassword');
+                                    controllerEmail.clear();
+                                    controllerPassword.clear();
+                                    // Redirection
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              const BottomNavView(),
+                                        ));
+                                  } else {
+                                    setState(() {
+                                      showSpinner = false;
+                                      isButtonActive = true;
+                                    });
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.red.shade100,
+                                      content: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: Row(
+                                          children: const [
+                                            Icon(Icons.warning_amber_rounded,
+                                                color: Colors.red, size: 30),
+                                            SizedBox(width: 20),
+                                            Expanded(
+                                              child: Text(
+                                                  "Votre compte n'est pas encore validé par l'administrateur",
+                                                  style: TextStyle(
+                                                      color: Colors.black)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ));
                                   }
-                                  preferences.setStringValue(
-                                      "userEmail", controllerEmail.text);
-                                  preferences.setStringValue(
-                                      'uid', user['uid']);
-                                  preferences.setBoolValue('keeplogin', true);
-                                  preferences.setStringValue(
-                                      'loginType', 'emailAndPassword');
-                                  controllerEmail.clear();
-                                  controllerPassword.clear();
-                                  // Redirection
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            const BottomNavView(),
-                                      ));
                                 } else {
                                   setState(() {
                                     showSpinner = false;
@@ -286,7 +313,7 @@ class _LoginState extends State<Login> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Register(profile: Profile())),
+                                      Register(profile: Proffessionel())),
                             );
                           },
                           child: Text(

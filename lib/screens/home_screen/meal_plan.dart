@@ -1,15 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:snay3i/models/profile.dart';
-import 'package:snay3i/services/preferences.dart';
+import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/services/validations.dart';
 import 'package:snay3i/style.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,7 +15,7 @@ class MealPlan extends StatefulWidget {
 }
 
 class _MealPlanState extends State<MealPlan> {
-  Profile profile = Profile();
+  Proffessionel profile = Proffessionel();
   DateTime today = validations.convertDateTimeToDate(DateTime.now());
   DateTime todayDate = validations.convertDateTimeToDate(DateTime.now());
   bool recipes = false;
@@ -180,7 +174,7 @@ class _MealPlanState extends State<MealPlan> {
   }
 
   Widget getIngredientsRecipes(double width, String text,
-      List ingList, Profile recipeList, String fieldname) {
+      List ingList, Proffessionel recipeList, String fieldname) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

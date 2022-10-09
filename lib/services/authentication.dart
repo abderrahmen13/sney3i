@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:snay3i/models/profile.dart';
+import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/repo/user_repo.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
 import 'package:snay3i/services/preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 ///
 class FirebaseAuths {
   //To create new User
-  Future<Map> createUserAuth(Profile profile, String language, context) async {
+  Future<Map> createUserAuth(Proffessionel profile, String language, context) async {
     if (kDebugMode) {
       print('-- CREATE USER 1 --');
       print(profile.email);
@@ -28,7 +26,7 @@ class FirebaseAuths {
               email: profile.email!, password: profile.password!);
       User? user = authres.user;
       if (user != null) {
-        await user.updateDisplayName(profile.name);
+        await user.updateDisplayName(profile.firstname);
         if (!user.emailVerified) {
           await user.sendEmailVerification();
         }
@@ -108,6 +106,14 @@ class FirebaseAuths {
     return null;
   }
 
+  Future<String?> currentUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.email;
+    }
+    return null;
+  }
+
   Future<User?> currentUserObject() async {
     User? user = FirebaseAuth.instance.currentUser;
     return user;
@@ -117,11 +123,11 @@ class FirebaseAuths {
     return await FirebaseAuth.instance.signOut();
   }
 
-  Future<Profile?> getCurrentUser() async {
+  Future<Proffessionel?> getCurrentUser() async {
     //Récupère le user si demandé
-    var uid = await currentUserId();
-    if (uid != null) {
-      return await userRop.getUserById(uid);
+    var email = await currentUserEmail();
+    if (email != null) {
+      return await userRop.getUserByEmail(email);
     }
     return null;
   }

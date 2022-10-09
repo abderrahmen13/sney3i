@@ -1,22 +1,23 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:snay3i/routes/routes.dart';
-import 'package:snay3i/screens/favorite_screen/favorite_screen.dart';
 import 'package:snay3i/screens/home_screen/diary.dart';
-import 'package:snay3i/screens/home_screen/meal_plan.dart';
-import 'package:snay3i/screens/language.dart';
-import 'package:snay3i/screens/me/me.dart';
 import 'package:snay3i/screens/splash_screen.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
+  var dir = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter(dir.path);
+  await Hive.openBox('Favorite');
   String? langg = await preferences.getStringValue('language');
   runApp(MyApp(lang: langg));
 }
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
       ],
       locale: lang != null ? Locale(lang!, '') : const Locale('fr', ''),
       routes: Routes.all,
-      home: const MealPlan(),
+      home: const Diary(),
     );
   }
 }

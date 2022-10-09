@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'dart:io' show Platform;
 
-import 'package:snay3i/models/profile.dart';
+import 'package:snay3i/models/proffessionel.dart';
 
 class LocalPreferences {
   void setIntValue(String key, int value) async {
@@ -86,7 +85,7 @@ class LocalPreferences {
     }
   }
 
-  Future<bool> setUser(Profile profile) async {
+  Future<bool> setUser(Proffessionel profile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       String s = json.encode(profile.toJson());
@@ -101,12 +100,12 @@ class LocalPreferences {
     }
   }
 
-  Future<Profile?> getUser() async {
+  Future<Proffessionel?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       String? p = prefs.getString('user');
       Map? s = json.decode(p!);
-      Profile profile = Profile.fromJson(s);
+      Proffessionel profile = Proffessionel.fromJson(s);
       return profile;
     } catch (e) {
       if (kDebugMode) {

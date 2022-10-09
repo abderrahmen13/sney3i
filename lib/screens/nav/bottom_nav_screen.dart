@@ -1,9 +1,8 @@
 //import 'package:bottom_nav_bar/persistent-tab-view.dart';
 import 'dart:async';
 
-import 'package:snay3i/models/profile.dart';
+import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/screens/home_screen/diary.dart';
-import 'package:snay3i/screens/home_screen/meal_plan.dart';
 import 'package:snay3i/screens/me/me.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:snay3i/style.dart';
@@ -22,13 +21,13 @@ class BottomNavView extends StatefulWidget {
 
 class _BottomNavViewState extends State<BottomNavView> {
   late PersistentTabController _controller;
-  Profile profile = Profile();
+  Proffessionel profile = Proffessionel();
 
   @override
   void initState() {
     _controller = PersistentTabController(initialIndex: 0);
     Timer(const Duration(milliseconds: 10), () async {
-      Profile? pr = await preferences.getUser();
+      Proffessionel? pr = await preferences.getUser();
       if (pr != null) {
         setState(() {
           profile = pr;
@@ -47,15 +46,6 @@ class _BottomNavViewState extends State<BottomNavView> {
   List<Widget> _widgetOptions() {
     return [
       const Diary(),
-      const MealPlan(),
-      // BlocProvider(
-      //   create: (context) => HomeRecipesBloc(),
-      //   child: const HomeRecipeScreen(),
-      // ),
-      // BlocProvider(
-      //   create: (context) => SearchPageCubit(),
-      //   child: const SearchPage(),
-      // ),
       const FavoriteScreen(),
       const Me(),
     ];
@@ -66,26 +56,10 @@ class _BottomNavViewState extends State<BottomNavView> {
       PersistentBottomNavBarItem(
         inactiveColorPrimary: Colors.grey.shade700,
         icon: const Icon(
-          CupertinoIcons.check_mark_circled,
+          CupertinoIcons.home,
         ),
         activeColorPrimary: mainColor0,
         title: (AppLocalizations.of(context)!.diary),
-      ),
-      PersistentBottomNavBarItem(
-        inactiveColorPrimary: Colors.grey.shade700,
-        icon: const Icon(
-          CupertinoIcons.squares_below_rectangle,
-        ),
-        activeColorPrimary: mainColor0,
-        title: (AppLocalizations.of(context)!.meal_Plan),
-      ),
-      PersistentBottomNavBarItem(
-        inactiveColorPrimary: Colors.grey.shade700,
-        icon: const Icon(
-          CupertinoIcons.search,
-        ),
-        activeColorPrimary: mainColor0,
-        title: (AppLocalizations.of(context)!.search),
       ),
       PersistentBottomNavBarItem(
         inactiveColorPrimary: Colors.grey.shade700,
