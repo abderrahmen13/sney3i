@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 class AdressRepo {
   Future<List<Adress>> getAdress() async {
     List<Adress> adressList = [];
-    var rep =
-        await http.get(Uri.parse('https://sney3i.aliretshop.com/api/adress'));
+    var rep = await http.get(Uri.parse('https://sney3i.epsrd.com/api/adress'));
     for (final iter in jsonDecode(rep.body)) {
       adressList.add(Adress.fromJson(iter));
     }

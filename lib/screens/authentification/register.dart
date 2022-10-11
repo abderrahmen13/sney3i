@@ -220,7 +220,7 @@ class _RegisterState extends State<Register> {
                           // create user to database (mysql)
                           await http.post(
                               Uri.parse(
-                                  'https://sney3i.aliretshop.com/api/register'),
+                                  'https://sney3i.epsrd.com/api/register'),
                               body: {
                                 "Role": "client",
                                 "first_name": widget.profile.firstname ?? "",

@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:snay3i/models/adress.dart';
+import 'package:snay3i/models/category.dart';
 import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/repo/adress_repo.dart';
+import 'package:snay3i/repo/category_repo.dart';
 import 'package:snay3i/repo/user_repo.dart';
+import 'package:snay3i/screens/home_screen/sub_category.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:snay3i/services/validations.dart';
 import 'package:snay3i/style.dart';
@@ -23,41 +26,29 @@ class _DiaryState extends State<Diary> {
   Proffessionel? profile = Proffessionel();
   List<Adress> adressList = [];
   List<Proffessionel> profsList = [];
+  List<Category> categoryList = [];
   Adress dropdownValue = Adress(id: 0, name: "Sousse");
-  DateTime today = validations.convertDateTimeToDate(DateTime.now());
-  DateTime todayDate = validations.convertDateTimeToDate(DateTime.now());
-  double caloryProccess = 0;
-  double proteinProccess = 0;
-  double carbsProccess = 0;
-  double fatProccess = 0;
-  int objectifWeight = 0;
-  late TextEditingController controllerCurrentWeight;
-  late TextEditingController controllerDate;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    controllerCurrentWeight = TextEditingController();
-    controllerDate = TextEditingController();
-    controllerDate.text = today.toString().split(' ')[0];
     Timer(const Duration(milliseconds: 1), () async {
       List<Adress> adressListt = await adressRepo.getAdress();
       List<Proffessionel> profsListt = await userRop.getProfs();
+      List<Category> categoryListt = await categoryRepo.getCategory();
       Proffessionel? profilee = await preferences.getUser();
       setState(() {
         adressList = adressListt;
         dropdownValue = adressList.first;
         profile = profilee;
         profsList = profsListt;
+        categoryList = categoryListt;
       });
     });
   }
 
   @override
   void dispose() {
-    controllerCurrentWeight.dispose();
-    controllerDate.dispose();
     super.dispose();
   }
 
@@ -149,21 +140,40 @@ class _DiaryState extends State<Diary> {
                     Text("Retrouvez plus de ${profsList.length} proffesionels")
                   ],
                 ),
-                Wrap(
-                  children: [
-                    ...adressList.map((item) => Column(
-                      children: [
-                        Image.network('https://sney3i.aliretshop.com/icon/125487.png'),
-                        Text(
-                          item.name!,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ))
-                      
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Wrap(
+                    children: [
+                      ...categoryList.map((item) => Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: InkWell(
+                              onTap: (() {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        SubCategory(category: item),
+                                  ),
+                                );
+                              }),
+                              child: Column(
+                                children: [
+                                  Image.network(
+                                    'https://sney3i.epsrd.com/icon/${item.icon}',
+                                    width: 140,
+                                    height: 140,
+                                  ),
+                                  Text(
+                                    item.name.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 )
               ],
             ),

@@ -1,4 +1,7 @@
+import 'package:snay3i/models/rating.dart';
+
 class Proffessionel {
+  int? id;
   String? uid;
   String? firstname;
   String? lastname;
@@ -11,8 +14,10 @@ class Proffessionel {
   String? birthday;
   String? phone;
   String? status;
+  Rating? rating;
 
   Proffessionel({
+    this.id,
     this.uid,
     this.firstname,
     this.lastname,
@@ -25,9 +30,11 @@ class Proffessionel {
     this.birthday,
     this.phone,
     this.status,
+    this.rating,
   });
 
   factory Proffessionel.fromJson(json) => Proffessionel(
+      id: json['id'],
       uid: json['uid'],
       firstname: json['first_name'],
       lastname: json['last_name'],
@@ -41,6 +48,7 @@ class Proffessionel {
       status: json['status']);
 
   toJson() => {
+        'id': id,
         'uid': uid,
         'first_name': firstname,
         'last_name': lastname,
@@ -56,6 +64,6 @@ class Proffessionel {
 
   @override
   String toString() {
-    return "name: $firstname email: $email ";
+    return "id: $id name: $firstname email: $email ";
   }
 }
