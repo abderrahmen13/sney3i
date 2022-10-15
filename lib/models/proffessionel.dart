@@ -15,6 +15,8 @@ class Proffessionel {
   String? phone;
   String? status;
   Rating? rating;
+  String? sms;
+  String? calls;
 
   Proffessionel({
     this.id,
@@ -31,6 +33,8 @@ class Proffessionel {
     this.phone,
     this.status,
     this.rating,
+    this.sms,
+    this.calls,
   });
 
   factory Proffessionel.fromJson(json) => Proffessionel(
@@ -45,7 +49,9 @@ class Proffessionel {
       birthday: json['birthday'],
       phone: json['phone'],
       picture: json['picture'],
-      status: json['status']);
+      status: json['status'],
+      sms: json['sms'],
+      calls: json['calls']);
 
   toJson() => {
         'id': id,
@@ -59,7 +65,9 @@ class Proffessionel {
         'birthday': birthday,
         'phone': phone,
         'picture': picture,
-        'status': status
+        'status': status,
+        'sms': sms,
+        'calls': calls
       };
 
   @override

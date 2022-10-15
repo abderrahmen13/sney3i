@@ -30,6 +30,22 @@ class CategoryRepo {
     }
     return categoryProfsList;
   }
+
+  Future<List<Proffessionel>> getCategoryProfsbyAdress(int id, String adress) async {
+    List<Proffessionel> categoryProfsList = [];
+    var rep = await http
+        .get(Uri.parse('https://sney3i.epsrd.com/api/category_prof/$id/$adress'));
+    try {
+      if (rep.body.length > 10) {
+        for (final iter in jsonDecode(rep.body)) {
+          categoryProfsList.add(Proffessionel.fromJson(iter[0]));
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return categoryProfsList;
+  }
 }
 
 CategoryRepo categoryRepo = CategoryRepo();

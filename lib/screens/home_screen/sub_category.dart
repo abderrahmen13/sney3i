@@ -1,6 +1,7 @@
 import 'package:snay3i/models/category.dart';
 import 'package:snay3i/screens/home_screen/category_profiles.dart';
 import 'package:flutter/material.dart';
+import 'package:snay3i/style.dart';
 
 class SubCategory extends StatefulWidget {
   final Category category;
@@ -11,7 +12,6 @@ class SubCategory extends StatefulWidget {
 }
 
 class _SubCategoryState extends State<SubCategory> {
-
   @override
   void initState() {
     super.initState();
@@ -38,13 +38,13 @@ class _SubCategoryState extends State<SubCategory> {
                   children: [
                     Image.network(
                       'https://sney3i.epsrd.com/icon/${widget.category.icon}',
-                      width: 140,
-                      height: 140,
+                      width: 120,
+                      height: 120,
                     ),
                     Text(
                       widget.category.name.toString(),
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 24,
                       ),
                     ),
                     const Text("")
@@ -54,7 +54,7 @@ class _SubCategoryState extends State<SubCategory> {
               preferredSize: const Size.fromHeight(160)),
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.purpleAccent.shade100,
+          backgroundColor: const Color.fromARGB(87, 233, 128, 252),
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (overScroll) {
@@ -67,41 +67,45 @@ class _SubCategoryState extends State<SubCategory> {
             child: ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Wrap(
-                    children: [
-                      ...widget.category.subCategoryItems!.map((item) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: InkWell(
-                              onTap: (() {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        CategoyProfiles(subcategory: item),
-                                  ),
-                                );
-                              }),
-                              child: Column(
-                                children: [
-                                  Image.network(
-                                    'https://sney3i.epsrd.com/icon/${item.icon}',
-                                    width: 140,
-                                    height: 140,
-                                  ),
-                                  Text(
-                                    item.name.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                Wrap(
+                  children: [
+                    ...widget.category.subCategoryItems!.map(
+                      (item) => InkWell(
+                        onTap: (() {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  CategoyProfiles(subcategory: item),
                             ),
-                          ))
-                    ],
-                  ),
-                )
+                          );
+                        }),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 5, left: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10),
+                          decoration: const BoxDecoration(
+                              color: colorWhite,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Column(
+                            children: [
+                              Image.network(
+                                'https://sney3i.epsrd.com/icon/${item.icon}',
+                                width: 140,
+                                height: 140,
+                              ),
+                              Text(
+                                item.name.toString(),
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

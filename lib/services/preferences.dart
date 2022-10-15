@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snay3i/models/adress.dart';
 import 'dart:convert';
 
 import 'package:snay3i/models/proffessionel.dart';
@@ -82,6 +83,37 @@ class LocalPreferences {
       if (kDebugMode) {
         print('ERROR SET STRING PREFERENCES');
       }
+    }
+  }
+
+  Future<bool> setAdress(Adress adress) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      String s = json.encode(adress.toJson());
+      prefs.setString('adress', s);
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+        print('-- FAILED TO SAVE ADRESS --');
+      }
+      return false;
+    }
+  }
+
+  Future<Adress?> getAdress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      String? p = prefs.getString('adress');
+      Map? s = json.decode(p!);
+      Adress adress = Adress.fromJson(s);
+      return adress;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+        print('-- FAILED TO GET ADRESS --');
+      }
+      return null;
     }
   }
 

@@ -20,6 +20,15 @@ class UserRepo {
     return profsList;
   }
 
+  Future<List<Proffessionel>> getProfsByAdress(String adress) async {
+    List<Proffessionel> profsList = [];
+    var rep = await http.get(Uri.parse('https://sney3i.epsrd.com/api/profs/$adress'));
+    for (final iter in jsonDecode(rep.body)) {
+      profsList.add(Proffessionel.fromJson(iter));
+    }
+    return profsList;
+  }
+
   Future<Rating> getProfRating(int id) async {
     var rep =
         await http.get(Uri.parse('https://sney3i.epsrd.com/api/raiting/$id'));
@@ -29,6 +38,19 @@ class UserRepo {
     } else {
       return Rating(rating: "0");
     }
+  }
+
+  Future<bool> updateProfileSMS(int id, String sms, String calls) async {
+    var rep =
+        await http.post(
+          Uri.parse('https://sney3i.epsrd.com/api/prof/$id'), 
+          body: {
+            "sms": sms,
+            "calls": calls
+          }
+        );
+    print(rep.body);
+    return true;
   }
 }
 

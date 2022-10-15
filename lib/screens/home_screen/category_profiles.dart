@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:snay3i/models/adress.dart';
 import 'package:snay3i/models/category.dart';
 import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/models/rating.dart';
@@ -7,6 +8,8 @@ import 'package:snay3i/repo/category_repo.dart';
 import 'package:snay3i/repo/user_repo.dart';
 import 'package:snay3i/screens/home_screen/proffessionel_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:snay3i/services/preferences.dart';
+import 'package:snay3i/style.dart';
 
 class CategoyProfiles extends StatefulWidget {
   final Category subcategory;
@@ -24,8 +27,15 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
   void initState() {
     super.initState();
     Timer(const Duration(milliseconds: 1), () async {
-      List<Proffessionel?> profsListt =
-          await categoryRepo.getCategoryProfs(widget.subcategory.id!);
+      Adress? adress = await preferences.getAdress();
+      List<Proffessionel?> profsListt;
+      if (adress == null) {
+        profsListt =
+            await categoryRepo.getCategoryProfs(widget.subcategory.id!);
+      } else {
+        profsListt = await categoryRepo.getCategoryProfsbyAdress(
+            widget.subcategory.id!, adress.name.toString());
+      }
       if (profsListt.isNotEmpty) {
         for (var item in profsListt) {
           Rating rating = await userRop.getProfRating(item!.id!);
@@ -65,7 +75,7 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
                     Text(
                       widget.subcategory.name.toString(),
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 24,
                       ),
                     ),
                     const Text("")
@@ -75,7 +85,7 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
               preferredSize: const Size.fromHeight(140)),
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.purpleAccent.shade100,
+          backgroundColor: const Color.fromARGB(87, 233, 128, 252),
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (overScroll) {
@@ -88,65 +98,90 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
             child: ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: profsList.isNotEmpty
-                      ? Wrap(
-                          children: [
-                            ...profsList.map((item) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: InkWell(
-                                    onTap: (() {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) =>
-                                              ProfessionelProfile(
-                                                  profile: item!),
-                                        ),
-                                      );
-                                    }),
-                                    child: Row(
-                                      children: [
-                                        Image.network(
+                profsList.isNotEmpty
+                    ? Wrap(
+                        children: [
+                          ...profsList.map((item) => Container(
+                                margin: const EdgeInsets.only(bottom: 5),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 10),
+                                decoration: const BoxDecoration(
+                                    color: colorWhite,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: InkWell(
+                                  onTap: (() {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            ProfessionelProfile(
+                                                profile: item!,
+                                                subcategory:
+                                                    widget.subcategory),
+                                      ),
+                                    );
+                                  }),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
                                           'https://sney3i.epsrd.com/proffessionel/${item!.image}',
-                                          width: 140,
+                                          width: 120,
+                                          height: 120,
                                         ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              item.firstname.toString() +
-                                                  " " +
-                                                  item.lastname.toString(),
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                              ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            item.firstname.toString() +
+                                                " " +
+                                                item.lastname.toString(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
                                             ),
-                                            Text(item.adress.toString()),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                    "${item.rating?.rating ?? 0}"),
-                                                const Icon(Icons.star)
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Icon(
+                                                  Icons.fmd_good_outlined),
+                                              Text(item.adress.toString()),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                  "${item.rating?.rating ?? 0}"),
+                                              const Icon(Icons.star)
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ))
-                          ],
-                        )
-                      : Container(),
-                )
+                                ),
+                              ))
+                        ],
+                      )
+                    : const Center(
+                        child: Text('Pas de proffesionells',
+                            style: TextStyle(color: Colors.redAccent)),
+                      ),
               ],
             ),
           ),

@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:snay3i/models/adress.dart';
+import 'package:snay3i/models/category.dart';
 import 'package:snay3i/models/proffessionel.dart';
-import 'package:snay3i/repo/adress_repo.dart';
-import 'package:snay3i/repo/user_repo.dart';
-import 'package:snay3i/services/preferences.dart';
-import 'package:snay3i/services/validations.dart';
 import 'package:flutter/material.dart';
+import 'package:snay3i/repo/user_repo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfessionelProfile extends StatefulWidget {
   final Proffessionel profile;
-  const ProfessionelProfile({Key? key, required this.profile})
+  final Category subcategory;
+  const ProfessionelProfile(
+      {Key? key, required this.profile, required this.subcategory})
       : super(key: key);
 
   @override
@@ -18,45 +18,14 @@ class ProfessionelProfile extends StatefulWidget {
 }
 
 class _ProfessionelProfileState extends State<ProfessionelProfile> {
-  late String uid;
-  Proffessionel? profile = Proffessionel();
-  List<Adress> adressList = [];
-  List<Proffessionel> profsList = [];
-  Adress dropdownValue = Adress(id: 0, name: "Sousse");
-  DateTime today = validations.convertDateTimeToDate(DateTime.now());
-  DateTime todayDate = validations.convertDateTimeToDate(DateTime.now());
-  double caloryProccess = 0;
-  double proteinProccess = 0;
-  double carbsProccess = 0;
-  double fatProccess = 0;
-  int objectifWeight = 0;
-  late TextEditingController controllerCurrentWeight;
-  late TextEditingController controllerDate;
-  final _formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
-    controllerCurrentWeight = TextEditingController();
-    controllerDate = TextEditingController();
-    controllerDate.text = today.toString().split(' ')[0];
-    Timer(const Duration(milliseconds: 1), () async {
-      List<Adress> adressListt = await adressRepo.getAdress();
-      List<Proffessionel> profsListt = await userRop.getProfs();
-      Proffessionel? profilee = await preferences.getUser();
-      setState(() {
-        adressList = adressListt;
-        dropdownValue = adressList.first;
-        profile = profilee;
-        profsList = profsListt;
-      });
-    });
+    Timer(const Duration(milliseconds: 1), () async {});
   }
 
   @override
   void dispose() {
-    controllerCurrentWeight.dispose();
-    controllerDate.dispose();
     super.dispose();
   }
 
@@ -69,9 +38,207 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           automaticallyImplyLeading: true,
+          bottom: PreferredSize(
+              child: SizedBox(
+                width: width - 40,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            'https://sney3i.epsrd.com/proffessionel/${widget.profile.image}',
+                            width: 120,
+                            height: 120,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              widget.profile.firstname.toString() +
+                                  " " +
+                                  widget.profile.lastname.toString(),
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              widget.subcategory.name.toString(),
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text("${widget.profile.rating?.rating ?? 0}"),
+                                const Icon(Icons.star)
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Icon(Icons.fmd_good_outlined),
+                                Text(widget.profile.adress.toString()),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Text(widget.profile.sms.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            const Text(
+                              "Messages",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: const [
+                            Text("0",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              "Vues profils",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: const [
+                            Text("0",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              "Commentaires",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(widget.profile.calls.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            const Text(
+                              "Appels",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            userRop.updateProfileSMS(
+                                widget.profile.id!,
+                                (int.parse(widget.profile.sms.toString()) + 1)
+                                    .toString(),
+                                widget.profile.calls.toString());
+                            await launchUrl(Uri.parse(
+                                'sms:${widget.profile.phone.toString()}'));
+                            setState(() {
+                              widget.profile.sms =
+                                  (int.parse(widget.profile.sms.toString()) + 1)
+                                      .toString();
+                            });
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: const Icon(Icons.chat_outlined),
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          decoration: BoxDecoration(
+                              color: Colors.yellow.shade200,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10))),
+                          child: const Center(
+                              child: Text("Ajouter une note",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold))),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            userRop.updateProfileSMS(
+                                widget.profile.id!,
+                                widget.profile.sms.toString(),
+                                (int.parse(widget.profile.calls.toString()) + 1)
+                                    .toString());
+                            await launchUrl(Uri.parse(
+                                'tel:${widget.profile.phone.toString()}'));
+                            setState(() {
+                              widget.profile.calls =
+                                  (int.parse(widget.profile.calls.toString()) +
+                                          1)
+                                      .toString();
+                            });
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: const Icon(Icons.call_outlined),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              ),
+              preferredSize: const Size.fromHeight(260)),
+          actions: [
+            IconButton(
+                padding: const EdgeInsets.only(right: 10),
+                onPressed: () {},
+                icon: const Icon(Icons.thumb_up_alt_outlined)),
+            IconButton(
+                padding: const EdgeInsets.only(right: 10),
+                onPressed: () {},
+                icon: const Icon(Icons.share_outlined))
+          ],
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.grey.shade200,
+          backgroundColor: Colors.white,
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (overScroll) {
@@ -83,35 +250,7 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
             onRefresh: () async {},
             child: ListView(
               padding: const EdgeInsets.all(20),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Wrap(
-                    children: [
-                      ...['adressList', '15'].map((item) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: InkWell(
-                              onTap: (() {}),
-                              child: Column(
-                                children: [
-                                  Image.network(
-                                    'https://sney3i.epsrd.com/icon/125487.png',
-                                    width: 140,
-                                  ),
-                                  Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ))
-                    ],
-                  ),
-                )
-              ],
+              children: [],
             ),
           ),
         ),

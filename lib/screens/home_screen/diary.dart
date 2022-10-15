@@ -49,6 +49,7 @@ class _DiaryState extends State<Diary> {
 
   @override
   void dispose() {
+    preferences.removeKey('adress');
     super.dispose();
   }
 
@@ -63,51 +64,60 @@ class _DiaryState extends State<Diary> {
           bottom: PreferredSize(
               child: SizedBox(
                 width: width - 40,
-                child: DropdownButtonFormField2(
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                    border: OutlineInputBorder(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: DropdownButtonFormField2(
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    isExpanded: true,
+                    hint: const Text(
+                      'Sélectionnez votre adresse',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    icon: const Icon(
+                      Icons.fmd_good_outlined,
+                      color: Colors.black45,
+                    ),
+                    iconSize: 30,
+                    buttonHeight: 60,
+                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                    dropdownDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                  isExpanded: true,
-                  hint: const Text(
-                    'Sélectionnez votre adresse',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  icon: const Icon(
-                    Icons.gps_fixed,
-                    color: Colors.black45,
-                  ),
-                  iconSize: 30,
-                  buttonHeight: 60,
-                  buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                  dropdownDecoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  items: adressList
-                      .map((item) => DropdownMenuItem<Adress>(
-                            value: item,
-                            child: Text(
-                              item.name!,
-                              style: const TextStyle(
-                                fontSize: 14,
+                    items: adressList
+                        .map((item) => DropdownMenuItem<Adress>(
+                              value: item,
+                              child: Text(
+                                item.name!,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          ))
-                      .toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return "Veuillez sélectionner l'adresse.";
-                    }
-                  },
-                  onChanged: (Adress? value) {
-                    dropdownValue = value!;
-                  },
+                            ))
+                        .toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return "Veuillez sélectionner l'adresse.";
+                      }
+                    },
+                    onChanged: (Adress? value) async {
+                      dropdownValue = value!;
+                      await preferences.setAdress(value);
+                      List<Proffessionel> profsListt =
+                          await userRop.getProfsByAdress(value.name.toString());
+                      setState(() {
+                        profsList = profsListt;
+                      });
+                    },
+                  ),
                 ),
               ),
-              preferredSize: const Size.fromHeight(50)),
+              preferredSize: const Size.fromHeight(70)),
           actions: [
             IconButton(
                 padding: const EdgeInsets.only(right: 10),
@@ -116,7 +126,7 @@ class _DiaryState extends State<Diary> {
           ],
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.grey.shade200,
+          backgroundColor: const Color.fromARGB(87, 233, 128, 252),
           title: Text(AppLocalizations.of(context)!.diary, style: styleTitle17),
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
@@ -144,34 +154,42 @@ class _DiaryState extends State<Diary> {
                   padding: const EdgeInsets.only(top: 30),
                   child: Wrap(
                     children: [
-                      ...categoryList.map((item) => Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: InkWell(
-                              onTap: (() {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        SubCategory(category: item),
-                                  ),
-                                );
-                              }),
-                              child: Column(
-                                children: [
-                                  Image.network(
-                                    'https://sney3i.epsrd.com/icon/${item.icon}',
-                                    width: 140,
-                                    height: 140,
-                                  ),
-                                  Text(
-                                    item.name.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
+                      ...categoryList.map(
+                        (item) => InkWell(
+                          onTap: (() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    SubCategory(category: item),
                               ),
+                            );
+                          }),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 5, left: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            decoration: const BoxDecoration(
+                                color: colorWhite,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  'https://sney3i.epsrd.com/icon/${item.icon}',
+                                  width: 140,
+                                  height: 140,
+                                ),
+                                Text(
+                                  item.name.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                          ))
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 )
