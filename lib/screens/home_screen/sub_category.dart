@@ -55,6 +55,11 @@ class _SubCategoryState extends State<SubCategory> {
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: const Color.fromARGB(87, 233, 128, 252),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+          ),
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (overScroll) {
@@ -62,7 +67,7 @@ class _SubCategoryState extends State<SubCategory> {
             return true;
           },
           child: RefreshIndicator(
-            color: Colors.green,
+            color: Colors.deepPurpleAccent,
             onRefresh: () async {},
             child: ListView(
               padding: const EdgeInsets.all(20),
@@ -87,19 +92,26 @@ class _SubCategoryState extends State<SubCategory> {
                               color: colorWhite,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          child: Column(
-                            children: [
-                              Image.network(
-                                'https://sney3i.epsrd.com/icon/${item.icon}',
-                                width: 140,
-                                height: 140,
-                              ),
-                              Text(
-                                item.name.toString(),
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          child: SizedBox(
+                            width: 90,
+                            height: 155,
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  'https://sney3i.epsrd.com/icon/${item.icon}',
+                                  width: 90,
+                                  height: 120,
+                                ),
+                                Text(
+                                  item.name.toString(),
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

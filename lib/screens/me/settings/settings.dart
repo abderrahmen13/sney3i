@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:snay3i/screens/authentification/login.dart';
+import 'package:snay3i/screens/me/settings/account/account.dart';
+import 'package:snay3i/screens/me/settings/personal_details.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,7 +39,13 @@ class Settings extends StatelessWidget {
                     title: Text(AppLocalizations.of(context)!.account),
                     leading: const Icon(Icons.person),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Account(),
+                          ));
+                    }),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 3),
@@ -57,7 +65,13 @@ class Settings extends StatelessWidget {
                     title: Text(AppLocalizations.of(context)!.personal_details),
                     leading: const Icon(Icons.paste),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PersonalDetails(),
+                          ));
+                    }),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 15),

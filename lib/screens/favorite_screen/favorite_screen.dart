@@ -1,13 +1,47 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:snay3i/models/favori.dart';
 import 'package:snay3i/models/proffessionel.dart';
+import 'package:snay3i/repo/favori_repo.dart';
 import 'package:snay3i/screens/home_screen/widgets/list_items.dart';
+import 'package:snay3i/services/preferences.dart';
 import 'package:snay3i/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FavoriteScreen> createState() => _FavoriteState();
+}
+
+class _FavoriteState extends State<FavoriteScreen> {
+  Proffessionel? profile = Proffessionel();
+  List<Favori> favoriList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 1), () async {
+      Proffessionel? profilee = await preferences.getUser();
+      if (profilee != null) {
+        List<Favori> favoriListt = await favoriRepo.getFavoriList(profilee.id!);
+        setState(() {
+          profile = profilee;
+          favoriList = favoriListt;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    preferences.removeKey('adress');
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,55 +57,54 @@ class FavoriteScreen extends StatelessWidget {
             style: styleTitle17,
           ),
         ),
-        body: ValueListenableBuilder<Box>(
-            valueListenable: Hive.box('Favorite').listenable(),
-            builder: (context, box, child) {
-              if (box.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        CupertinoIcons.heart_fill,
-                        size: 105,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 250,
-                        child: Text(
-                          AppLocalizations.of(context)!.you_dont_have_any_Favorite_recipe_yet,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overScroll) {
+            overScroll.disallowIndicator();
+            return true;
+          },
+          child: RefreshIndicator(
+            color: Colors.deepPurpleAccent,
+            onRefresh: () async {
+              List<Favori> favoriListt =
+                  await favoriRepo.getFavoriList(profile!.id!);
+              setState(() {
+                favoriList = favoriListt;
+              });
+            },
+            child: favoriList.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: ListView(
+                      //mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.heart_fill,
+                          size: 105,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 250,
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .you_dont_have_any_Favorite_recipe_yet,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (overScroll) {
-                  overScroll.disallowIndicator();
-                  return true;
-                },
-                child: ListView.builder(
+                      ],
+                    ),
+                  )
+                : ListView.builder(
                     itemBuilder: (context, i) {
-                      final info = box.getAt(i);
-                      final data = Proffessionel.fromJson(info);
-                      return ListItem(
-                        proffessionel: Proffessionel (
-                          uid: data.uid.toString(),
-                          image: data.image!,
-                          firstname: data.firstname.toString(),
-                          phone: data.phone.toString(),
-                          adress: data.adress.toString(),
-                        ),
-                      );
+                      final data = favoriList[i];
+                      //final data = Favori.fromJson(info);
+                      return ListItem(proffessionel: data.person!);
                     },
-                    itemCount: box.length),
-              );
-            }),
+                    itemCount: favoriList.length),
+          ),
+        ),
       ),
     );
   }

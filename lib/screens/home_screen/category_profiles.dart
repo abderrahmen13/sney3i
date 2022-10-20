@@ -93,7 +93,7 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
             return true;
           },
           child: RefreshIndicator(
-            color: Colors.green,
+            color: Colors.deepPurpleAccent,
             onRefresh: () async {},
             child: ListView(
               padding: const EdgeInsets.all(20),

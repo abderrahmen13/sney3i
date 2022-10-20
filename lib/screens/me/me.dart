@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:snay3i/models/proffessionel.dart';
+import 'package:snay3i/screens/me/settings/personal_details.dart';
 import 'package:snay3i/screens/me/settings/settings.dart';
+import 'package:snay3i/services/preferences.dart';
 import 'package:snay3i/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,10 +16,17 @@ class Me extends StatefulWidget {
 }
 
 class _MeState extends State<Me> {
+  Proffessionel? profile = Proffessionel();
 
   @override
   void initState() {
     super.initState();
+    Timer(const Duration(milliseconds: 1), () async {
+      Proffessionel? profilee = await preferences.getUser();
+      setState(() {
+        profile = profilee;
+      });
+    });
   }
 
   @override
@@ -69,10 +81,9 @@ class _MeState extends State<Me> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text(AppLocalizations.of(context)!.goal,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
-                        leading: const Icon(Icons.account_tree_rounded,
+                        title: const Text("Détails du compte",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        leading: const Icon(Icons.account_box_outlined,
                             color: mainColor0),
                         iconColor: Colors.grey.shade300,
                       ),
@@ -88,16 +99,20 @@ class _MeState extends State<Me> {
                             color: Color.fromARGB(255, 248, 230, 245),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        child: ListTile(
-                            title: Text(
-                                AppLocalizations.of(context)!.current_Goal +
-                                    ":"),
-                            subtitle: const Text("+10 kg",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30)),
-                            textColor: Colors.black,
-                            trailing: const Icon(Icons.badge, size: 50)),
+                        child: Image.network(
+                          profile?.image != null
+                              ? 'https://sney3i.epsrd.com${profile?.image}'
+                              : 'https://sney3i.epsrd.com/icon/default.png',
+                          width: 100,
+                          height: 100,
+                        ),
                       ),
+                      Text(
+                          profile!.firstname.toString() +
+                              " " +
+                              profile!.lastname.toString(),
+                          style: const TextStyle(fontSize: 30)),
+                      const SizedBox(height: 20),
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.only(
@@ -108,7 +123,14 @@ class _MeState extends State<Me> {
                               onPrimary: Colors.white, // foreground
                               onSurface: Colors.deepPurple,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PersonalDetails(),
+                                  ));
+                            },
                             child: Text(
                                 AppLocalizations.of(context)!.edit_my_profile,
                                 style: const TextStyle(fontSize: 18))),

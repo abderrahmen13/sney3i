@@ -58,7 +58,7 @@ class _BottomNavViewState extends State<BottomNavView> {
         icon: const Icon(
           CupertinoIcons.home,
         ),
-        activeColorPrimary: mainColor0,
+        activeColorPrimary: mainColor2,
         title: (AppLocalizations.of(context)!.diary),
       ),
       PersistentBottomNavBarItem(
@@ -66,7 +66,7 @@ class _BottomNavViewState extends State<BottomNavView> {
         icon: const Icon(
           CupertinoIcons.heart_circle,
         ),
-        activeColorPrimary: mainColor0,
+        activeColorPrimary: mainColor2,
         title: (AppLocalizations.of(context)!.favorite),
       ),
       PersistentBottomNavBarItem(
@@ -74,7 +74,7 @@ class _BottomNavViewState extends State<BottomNavView> {
         icon: const Icon(
           Icons.account_circle_outlined,
         ),
-        activeColorPrimary: mainColor0,
+        activeColorPrimary: mainColor2,
         title: (AppLocalizations.of(context)!.me),
       ),
     ];

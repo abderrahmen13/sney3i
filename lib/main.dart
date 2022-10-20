@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
       ],
       locale: lang != null ? Locale(lang!, '') : const Locale('fr', ''),
       routes: Routes.all,
-      home: const Diary(),
+      home: const SplashScreen(),
     );
   }
 }

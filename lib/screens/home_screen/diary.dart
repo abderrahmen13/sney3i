@@ -9,7 +9,6 @@ import 'package:snay3i/repo/category_repo.dart';
 import 'package:snay3i/repo/user_repo.dart';
 import 'package:snay3i/screens/home_screen/sub_category.dart';
 import 'package:snay3i/services/preferences.dart';
-import 'package:snay3i/services/validations.dart';
 import 'package:snay3i/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,7 +21,6 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
-  late String uid;
   Proffessionel? profile = Proffessionel();
   List<Adress> adressList = [];
   List<Proffessionel> profsList = [];
@@ -118,15 +116,20 @@ class _DiaryState extends State<Diary> {
                 ),
               ),
               preferredSize: const Size.fromHeight(70)),
-          actions: [
-            IconButton(
-                padding: const EdgeInsets.only(right: 10),
-                onPressed: () {},
-                icon: const Icon(Icons.chat))
-          ],
+          // actions: [
+          //   IconButton(
+          //       padding: const EdgeInsets.only(right: 10),
+          //       onPressed: () {},
+          //       icon: const Icon(Icons.chat))
+          // ],
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: const Color.fromARGB(87, 233, 128, 252),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+          ),
           title: Text(AppLocalizations.of(context)!.diary, style: styleTitle17),
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
@@ -135,7 +138,7 @@ class _DiaryState extends State<Diary> {
             return true;
           },
           child: RefreshIndicator(
-            color: Colors.green,
+            color: Colors.deepPurpleAccent,
             onRefresh: () async {},
             child: ListView(
               padding: const EdgeInsets.all(20),
@@ -172,20 +175,29 @@ class _DiaryState extends State<Diary> {
                                 color: colorWhite,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
-                            child: Column(
-                              children: [
-                                Image.network(
-                                  'https://sney3i.epsrd.com/icon/${item.icon}',
-                                  width: 140,
-                                  height: 140,
-                                ),
-                                Text(
-                                  item.name.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                            child: SizedBox(
+                              width: 90,
+                              height: 155,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.network(
+                                    'https://sney3i.epsrd.com/icon/${item.icon}',
+                                    width: 90,
+                                    height: 120,
+                                  ),
+                                  Text(
+                                    item.name.toString(),
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

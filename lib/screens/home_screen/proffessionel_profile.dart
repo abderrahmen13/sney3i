@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:snay3i/models/category.dart';
+import 'package:snay3i/models/favori.dart';
 import 'package:snay3i/models/proffessionel.dart';
 import 'package:flutter/material.dart';
+import 'package:snay3i/repo/favori_repo.dart';
 import 'package:snay3i/repo/user_repo.dart';
+import 'package:snay3i/services/preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfessionelProfile extends StatefulWidget {
@@ -18,10 +21,23 @@ class ProfessionelProfile extends StatefulWidget {
 }
 
 class _ProfessionelProfileState extends State<ProfessionelProfile> {
+  List<Favori> favoriList = [];
+  Proffessionel? me = Proffessionel();
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 1), () async {});
+    Timer(const Duration(milliseconds: 1), () async {
+      Proffessionel? profilee = await preferences.getUser();
+      if (profilee != null) {
+        List<Favori> favoriListt = await favoriRepo.getFavoriListProfs(
+            profilee.id!, widget.profile.id!);
+        setState(() {
+          me = profilee;
+          favoriList = favoriListt;
+        });
+      }
+    });
   }
 
   @override
@@ -229,8 +245,23 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
           actions: [
             IconButton(
                 padding: const EdgeInsets.only(right: 10),
-                onPressed: () {},
-                icon: const Icon(Icons.thumb_up_alt_outlined)),
+                onPressed: () async {
+                  if(favoriList.isEmpty) {
+                    await favoriRepo.addFavori(me!.id.toString(), widget.profile.id.toString());
+                    setState(() {
+                      favoriList.add(Favori());
+                    });
+                  } else {
+                    await favoriRepo.deleteFavori(me!.id.toString(), widget.profile.id.toString());
+                    setState(() {
+                      favoriList = [];
+                    });
+                  }
+                  
+                },
+                icon: Icon(favoriList.isEmpty
+                    ? Icons.thumb_up_alt_outlined
+                    : Icons.thumb_up_alt)),
             IconButton(
                 padding: const EdgeInsets.only(right: 10),
                 onPressed: () {},
@@ -246,7 +277,7 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
             return true;
           },
           child: RefreshIndicator(
-            color: Colors.green,
+            color: Colors.deepPurpleAccent,
             onRefresh: () async {},
             child: ListView(
               padding: const EdgeInsets.all(20),
