@@ -68,7 +68,7 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
                 child: Column(
                   children: [
                     Image.network(
-                      'https://sney3i.epsrd.com/icon/${widget.subcategory.icon}',
+                      'https://sney3i.epsrd.com/public/icon/${widget.subcategory.icon}',
                       width: 100,
                       height: 100,
                     ),
@@ -126,7 +126,7 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
-                                          'https://sney3i.epsrd.com/proffessionel/${item!.image}',
+                                          'https://sney3i.epsrd.com/public/proffessionel/${item!.image}',
                                           width: 120,
                                           height: 120,
                                         ),

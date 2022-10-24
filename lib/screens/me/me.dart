@@ -101,16 +101,13 @@ class _MeState extends State<Me> {
                                 BorderRadius.all(Radius.circular(10))),
                         child: Image.network(
                           profile?.image != null
-                              ? 'https://sney3i.epsrd.com${profile?.image}'
-                              : 'https://sney3i.epsrd.com/icon/default.png',
+                              ? 'https://sney3i.epsrd.com/public${profile?.image}'
+                              : 'https://sney3i.epsrd.com/public/icon/default.png',
                           width: 100,
                           height: 100,
                         ),
                       ),
-                      Text(
-                          profile!.firstname.toString() +
-                              " " +
-                              profile!.lastname.toString(),
+                      Text(profile!.firstname.toString(),
                           style: const TextStyle(fontSize: 30)),
                       const SizedBox(height: 20),
                       Container(

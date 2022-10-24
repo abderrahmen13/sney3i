@@ -37,7 +37,7 @@ class _SubCategoryState extends State<SubCategory> {
                 child: Column(
                   children: [
                     Image.network(
-                      'https://sney3i.epsrd.com/icon/${widget.category.icon}',
+                      'https://sney3i.epsrd.com/public/icon/${widget.category.icon}',
                       width: 120,
                       height: 120,
                     ),
@@ -98,7 +98,7 @@ class _SubCategoryState extends State<SubCategory> {
                             child: Column(
                               children: [
                                 Image.network(
-                                  'https://sney3i.epsrd.com/icon/${item.icon}',
+                                  'https://sney3i.epsrd.com/public/icon/${item.icon}',
                                   width: 90,
                                   height: 120,
                                 ),

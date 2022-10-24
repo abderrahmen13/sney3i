@@ -184,7 +184,7 @@ class _DiaryState extends State<Diary> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Image.network(
-                                    'https://sney3i.epsrd.com/icon/${item.icon}',
+                                    'https://sney3i.epsrd.com/public/icon/${item.icon}',
                                     width: 90,
                                     height: 120,
                                   ),

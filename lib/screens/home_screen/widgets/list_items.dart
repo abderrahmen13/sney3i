@@ -76,7 +76,7 @@ class _Listmealtate extends State<ListItem> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
-                              "https://sney3i.epsrd.com/proffessionel/${widget.proffessionel.image}"),
+                              "https://sney3i.epsrd.com/public/proffessionel/${widget.proffessionel.image}"),
                         ),
                       ),
                     ),

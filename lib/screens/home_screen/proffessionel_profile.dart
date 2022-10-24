@@ -64,7 +64,7 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            'https://sney3i.epsrd.com/proffessionel/${widget.profile.image}',
+                            'https://sney3i.epsrd.com/public/proffessionel/${widget.profile.image}',
                             width: 120,
                             height: 120,
                           ),
