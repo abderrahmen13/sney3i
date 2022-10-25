@@ -73,7 +73,8 @@ class _DiaryState extends State<Diary> {
                       ),
                     ),
                     isExpanded: true,
-                    hint: Text(AppLocalizations.of(context)!.select_your_address,
+                    hint: Text(
+                      AppLocalizations.of(context)!.select_your_address,
                       style: const TextStyle(fontSize: 14),
                     ),
                     icon: const Icon(
@@ -145,10 +146,14 @@ class _DiaryState extends State<Diary> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(AppLocalizations.of(context)!.welcome+" ${profile?.firstname}",
+                    Text(
+                      AppLocalizations.of(context)!.welcome +
+                          " ${profile?.firstname}",
                       style: const TextStyle(fontSize: 24),
                     ),
-                    Text(AppLocalizations.of(context)!.find_more+" ${profsList.length} "+AppLocalizations.of(context)!.professionals)
+                    Text(AppLocalizations.of(context)!.find_more +
+                        " ${profsList.length} " +
+                        AppLocalizations.of(context)!.professionals)
                   ],
                 ),
                 Padding(
@@ -174,7 +179,7 @@ class _DiaryState extends State<Diary> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: SizedBox(
-                              width: 90,
+                              width: width / 3 - 30,
                               height: 155,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,

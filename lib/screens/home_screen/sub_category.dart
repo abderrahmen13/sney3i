@@ -93,7 +93,7 @@ class _SubCategoryState extends State<SubCategory> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           child: SizedBox(
-                            width: 90,
+                            width: width / 3 - 30,
                             height: 155,
                             child: Column(
                               children: [
