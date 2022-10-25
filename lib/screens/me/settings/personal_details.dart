@@ -59,7 +59,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 color: Colors.white,
                 child: ListTile(
                   title: Text(AppLocalizations.of(context)!.your_Full_name),
-                  trailing: Text("${profile.firstname} ${profile.lastname}",
+                  trailing: Text("${profile.firstname}",
                       style: TextStyle(color: Colors.grey.shade600)),
                 ),
               ),
@@ -67,7 +67,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 margin: const EdgeInsets.only(top: 5),
                 color: Colors.white,
                 child: ListTile(
-                  title: Text(AppLocalizations.of(context)!.age),
+                  title: Text(AppLocalizations.of(context)!.birthday),
                   trailing: Text("${profile.birthday}",
                       style: TextStyle(color: Colors.grey.shade600)),
                 ),
@@ -76,7 +76,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 margin: const EdgeInsets.only(top: 5),
                 color: Colors.white,
                 child: ListTile(
-                  title: const Text("Adresse"),
+                  title: Text(AppLocalizations.of(context)!.address),
                   trailing: Text("${profile.adress}",
                       style: TextStyle(color: Colors.grey.shade600)),
                 ),

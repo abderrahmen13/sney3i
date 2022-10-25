@@ -280,5 +280,19 @@
     "enjoy_your_breakfast": "Bon petit-déjeûner",
     "enjoy_your_lunch": "Profiter de votre déjeuner",
     "enjoy_your_dinner": "Profiter de votre dîner",
-    "edit_my_profile":"Modifier mon profile"
+    "edit_my_profile":"Voir mon profile",
+    "birthday":"Date de naissance",
+    "address":"Adresse",
+    "account_details":"Détails du compte",
+    "find_more":"Retrouvez plus de",
+    "professionals":"professionnels",
+    "welcome":"bienvenu",
+    "select_your_address":"Sélectionnez votre adresse",
+    "messages":"Messages",
+    "profile_views":"Vues profils",
+    "comments":"Commentaires",
+    "calls":"Appels",
+    "add_note":"Ajouter une note",
+    "no_professionals":"Pas de professionnels",
+    "your_account_not_validated_administrator":"Votre compte n'est pas encore validé par l'administrateur"
 }

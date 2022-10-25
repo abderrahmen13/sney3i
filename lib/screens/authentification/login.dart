@@ -228,14 +228,13 @@ class _LoginState extends State<Login> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10),
                                         child: Row(
-                                          children: const [
-                                            Icon(Icons.warning_amber_rounded,
+                                          children: [
+                                            const Icon(Icons.warning_amber_rounded,
                                                 color: Colors.red, size: 30),
-                                            SizedBox(width: 20),
+                                            const SizedBox(width: 20),
                                             Expanded(
-                                              child: Text(
-                                                  "Votre compte n'est pas encore validé par l'administrateur",
-                                                  style: TextStyle(
+                                              child: Text(AppLocalizations.of(context)!.your_account_not_validated_administrator,
+                                                  style: const TextStyle(
                                                       color: Colors.black)),
                                             )
                                           ],

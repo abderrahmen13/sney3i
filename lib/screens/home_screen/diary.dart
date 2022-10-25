@@ -73,9 +73,8 @@ class _DiaryState extends State<Diary> {
                       ),
                     ),
                     isExpanded: true,
-                    hint: const Text(
-                      'Sélectionnez votre adresse',
-                      style: TextStyle(fontSize: 14),
+                    hint: Text(AppLocalizations.of(context)!.select_your_address,
+                      style: const TextStyle(fontSize: 14),
                     ),
                     icon: const Icon(
                       Icons.fmd_good_outlined,
@@ -146,11 +145,10 @@ class _DiaryState extends State<Diary> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Marhbé ${profile?.firstname}",
+                    Text(AppLocalizations.of(context)!.welcome+" ${profile?.firstname}",
                       style: const TextStyle(fontSize: 24),
                     ),
-                    Text("Retrouvez plus de ${profsList.length} proffesionels")
+                    Text(AppLocalizations.of(context)!.find_more+" ${profsList.length} "+AppLocalizations.of(context)!.professionals)
                   ],
                 ),
                 Padding(

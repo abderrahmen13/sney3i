@@ -81,8 +81,8 @@ class _MeState extends State<Me> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: const Text("Détails du compte",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text(AppLocalizations.of(context)!.account_details,
+                            style: const TextStyle(fontWeight: FontWeight.bold)),
                         leading: const Icon(Icons.account_box_outlined,
                             color: mainColor0),
                         iconColor: Colors.grey.shade300,

@@ -8,6 +8,7 @@ import 'package:snay3i/repo/favori_repo.dart';
 import 'package:snay3i/repo/user_repo.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfessionelProfile extends StatefulWidget {
   final Proffessionel profile;
@@ -125,29 +126,26 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
                             Text(widget.profile.sms.toString(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
-                            const Text(
-                              "Messages",
-                              style: TextStyle(color: Colors.grey),
+                            Text(AppLocalizations.of(context)!.messages,
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
                         Column(
-                          children: const [
-                            Text("0",
+                          children: [
+                            const Text("0",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                              "Vues profils",
-                              style: TextStyle(color: Colors.grey),
+                            Text(AppLocalizations.of(context)!.profile_views,
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
                         Column(
-                          children: const [
-                            Text("0",
+                          children: [
+                            const Text("0",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                              "Commentaires",
-                              style: TextStyle(color: Colors.grey),
+                            Text(AppLocalizations.of(context)!.comments,
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
@@ -156,9 +154,8 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
                             Text(widget.profile.calls.toString(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
-                            const Text(
-                              "Appels",
-                              style: TextStyle(color: Colors.grey),
+                            Text(AppLocalizations.of(context)!.calls,
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
@@ -202,10 +199,10 @@ class _ProfessionelProfileState extends State<ProfessionelProfile> {
                               color: Colors.yellow.shade200,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10))),
-                          child: const Center(
-                              child: Text("Ajouter une note",
+                          child: Center(
+                              child: Text(AppLocalizations.of(context)!.add_note,
                                   style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
+                                      const TextStyle(fontWeight: FontWeight.bold))),
                         ),
                         InkWell(
                           onTap: () async {

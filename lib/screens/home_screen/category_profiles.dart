@@ -10,6 +10,7 @@ import 'package:snay3i/screens/home_screen/proffessionel_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:snay3i/style.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoyProfiles extends StatefulWidget {
   final Category subcategory;
@@ -178,9 +179,9 @@ class _CategoyProfilesState extends State<CategoyProfiles> {
                               ))
                         ],
                       )
-                    : const Center(
-                        child: Text('Pas de proffesionells',
-                            style: TextStyle(color: Colors.redAccent)),
+                    : Center(
+                        child: Text(AppLocalizations.of(context)!.no_professionals,
+                            style: const TextStyle(color: Colors.redAccent)),
                       ),
               ],
             ),

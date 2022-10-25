@@ -48,16 +48,6 @@ class Settings extends StatelessWidget {
                     }),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 3),
-                color: Colors.white,
-                child: ListTile(
-                    minLeadingWidth: 10,
-                    title: Text(AppLocalizations.of(context)!.notification),
-                    leading: const Icon(Icons.notifications),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                    onTap: () {}),
-              ),
-              Container(
                 margin: const EdgeInsets.only(top: 15),
                 color: Colors.white,
                 child: ListTile(

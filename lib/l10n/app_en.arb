@@ -317,5 +317,19 @@
     "enjoy_your_breakfast":"Enjoy your breakfast",
     "enjoy_your_lunch":"Enjoy your lunch",
     "enjoy_your_dinner":"Enjoy your dinner",
-    "edit_my_profile":"Edit my profile"
+    "edit_my_profile":"See my profile",
+    "birthday":"birthdate",
+    "address":"Address",
+    "account_details":"Account details",
+    "find_more":"Find more",
+    "professionals":"professionals",
+    "welcome":"welcome",
+    "select_your_address":"Select your address",
+    "messages":"Messages",
+    "profile_views":"Profile views",
+    "comments":"Comments",
+    "calls":"Calls",
+    "add_note":"Add note",
+    "no_professionals":"No professionals",
+    "your_account_not_validated_administrator":"Your account is not yet validated by the administrator"
 }
