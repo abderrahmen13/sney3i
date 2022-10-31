@@ -294,5 +294,9 @@
     "calls":"Appels",
     "add_note":"Ajouter une note",
     "no_professionals":"Pas de professionnels",
-    "your_account_not_validated_administrator":"Votre compte n'est pas encore validé par l'administrateur"
+    "your_account_not_validated_administrator":"Votre compte n'est pas encore validé par l'administrateur",
+    "forgot_password":"Mot de passe oublié ?",
+    "enter_your_email_to_reset_you_password": "Entrez votre e-mail pour réinitialiser votre mot de passe",
+    "reset_password": "Réinitialiser le mot de passe",
+    "password_reset_email_sent": "E-mail de réinitialisation du mot de passe envoyé"
 }

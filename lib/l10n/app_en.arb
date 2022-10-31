@@ -331,5 +331,9 @@
     "calls":"Calls",
     "add_note":"Add note",
     "no_professionals":"No professionals",
-    "your_account_not_validated_administrator":"Your account is not yet validated by the administrator"
+    "your_account_not_validated_administrator":"Your account is not yet validated by the administrator",
+    "forgot_password":"Forgot password ?",
+    "enter_your_email_to_reset_you_password": "Enter your email to reset your password",
+    "reset_password": "Reset password",
+    "password_reset_email_sent": "Password reset email sent"
 }

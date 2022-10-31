@@ -54,6 +54,12 @@ class FirebaseAuths {
     return {'error': AppLocalizations.of(context)!.something_wrong};
   }
 
+  Future<bool> resetPassword(String email) async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+    return true;
+  }
+
   //To verify new User
   Future<Map> signIn(String email, String password, context) async {
     try {

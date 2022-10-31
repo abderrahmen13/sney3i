@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:snay3i/models/proffessionel.dart';
 import 'package:snay3i/screens/authentification/register.dart';
+import 'package:snay3i/screens/authentification/reset_password.dart';
 import 'package:snay3i/screens/nav/bottom_nav_screen.dart';
 import 'package:snay3i/services/authentication.dart';
 import 'package:snay3i/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:snay3i/style.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -229,11 +231,15 @@ class _LoginState extends State<Login> {
                                             vertical: 10),
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.warning_amber_rounded,
-                                                color: Colors.red, size: 30),
+                                            const Icon(
+                                                Icons.warning_amber_rounded,
+                                                color: Colors.red,
+                                                size: 30),
                                             const SizedBox(width: 20),
                                             Expanded(
-                                              child: Text(AppLocalizations.of(context)!.your_account_not_validated_administrator,
+                                              child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .your_account_not_validated_administrator,
                                                   style: const TextStyle(
                                                       color: Colors.black)),
                                             )
@@ -303,6 +309,22 @@ class _LoginState extends State<Login> {
                           AppLocalizations.of(context)!.you_agree_to_our_terms,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 114, 113, 113)))),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const ResetPassword(),
+                      ));
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.forgot_password,
+                      style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 20,
+                          color: mainColor1),
+                    ),
+                  ),
                   Container(
                       //width: double.infinity,
                       margin: const EdgeInsets.only(top: 30.0),
